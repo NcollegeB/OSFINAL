@@ -1,0 +1,202 @@
+/*
+ * OSFINAL PDF/export styling for Obsidian.
+ * Enable in Settings -> Appearance -> CSS snippets.
+ */
+
+.markdown-preview-view.osfinal-paper,
+.markdown-rendered.osfinal-paper {
+    --font-text: "Aptos", "Segoe UI", "Inter", "Arial", sans-serif;
+    --font-monospace: "Cascadia Code", "Consolas", monospace;
+    --h1-color: #111827;
+    --h2-color: #16324f;
+    --h3-color: #243b53;
+    --link-color: #1f5f9f;
+    --line-height-normal: 1.45;
+    color: #1f2933;
+}
+
+.markdown-preview-view.osfinal-paper h1,
+.markdown-rendered.osfinal-paper h1 {
+    letter-spacing: 0;
+}
+
+.markdown-preview-view.osfinal-paper h2,
+.markdown-rendered.osfinal-paper h2 {
+    border-bottom: 1px solid #d8e0ea;
+    padding-bottom: 0.18rem;
+}
+
+.markdown-preview-view.osfinal-paper table,
+.markdown-rendered.osfinal-paper table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.markdown-preview-view.osfinal-paper th,
+.markdown-rendered.osfinal-paper th {
+    background: #eef4fb;
+    color: #172033;
+    font-weight: 700;
+}
+
+.markdown-preview-view.osfinal-paper th,
+.markdown-preview-view.osfinal-paper td,
+.markdown-rendered.osfinal-paper th,
+.markdown-rendered.osfinal-paper td {
+    border: 1px solid #d4dde8;
+    padding: 0.35rem 0.45rem;
+    vertical-align: top;
+}
+
+.markdown-preview-view.osfinal-paper tbody tr:nth-child(even),
+.markdown-rendered.osfinal-paper tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.markdown-preview-view.osfinal-paper .page-break,
+.markdown-rendered.osfinal-paper .page-break {
+    display: block;
+    height: 0;
+}
+
+@media print {
+    @page {
+        size: letter;
+        margin: 0.58in 0.62in;
+    }
+
+    body {
+        background: #ffffff !important;
+    }
+
+    .markdown-preview-view.osfinal-paper,
+    .markdown-rendered.osfinal-paper,
+    .markdown-preview-view.osfinal-paper p,
+    .markdown-rendered.osfinal-paper p,
+    .markdown-preview-view.osfinal-paper li,
+    .markdown-rendered.osfinal-paper li {
+        font-family: "Aptos", "Segoe UI", "Inter", "Arial", sans-serif;
+        font-size: 10.2pt;
+        line-height: 1.38;
+    }
+
+    .markdown-preview-view.osfinal-paper h1,
+    .markdown-rendered.osfinal-paper h1 {
+        font-size: 21pt;
+        line-height: 1.15;
+        margin: 0 0 0.35in;
+    }
+
+    .markdown-preview-view.osfinal-paper h2,
+    .markdown-rendered.osfinal-paper h2 {
+        break-after: avoid-page;
+        font-size: 14.2pt;
+        line-height: 1.2;
+        margin: 0.32in 0 0.12in;
+    }
+
+    .markdown-preview-view.osfinal-paper h3,
+    .markdown-rendered.osfinal-paper h3 {
+        break-after: avoid-page;
+        font-size: 11.6pt;
+        margin: 0.22in 0 0.08in;
+    }
+
+    .markdown-preview-view.osfinal-paper p,
+    .markdown-rendered.osfinal-paper p {
+        margin: 0 0 0.13in;
+    }
+
+    .markdown-preview-view.osfinal-paper ul,
+    .markdown-preview-view.osfinal-paper ol,
+    .markdown-rendered.osfinal-paper ul,
+    .markdown-rendered.osfinal-paper ol {
+        margin: 0.05in 0 0.18in;
+        padding-left: 0.22in;
+    }
+
+    .markdown-preview-view.osfinal-paper li,
+    .markdown-rendered.osfinal-paper li {
+        margin: 0.025in 0;
+    }
+
+    .markdown-preview-view.osfinal-paper code,
+    .markdown-rendered.osfinal-paper code {
+        background: #eef1f5;
+        border-radius: 3px;
+        color: #182334;
+        font-family: "Cascadia Code", "Consolas", monospace;
+        font-size: 0.86em;
+        padding: 0.02in 0.055in;
+    }
+
+    .markdown-preview-view.osfinal-paper pre,
+    .markdown-rendered.osfinal-paper pre {
+        background: #f5f7fa;
+        border: 1px solid #d8e0ea;
+        border-radius: 5px;
+        margin: 0.12in 0 0.2in;
+        padding: 0.11in;
+        white-space: pre-wrap;
+    }
+
+    .markdown-preview-view.osfinal-paper pre code,
+    .markdown-rendered.osfinal-paper pre code {
+        background: transparent;
+        font-size: 8.6pt;
+        padding: 0;
+    }
+
+    .markdown-preview-view.osfinal-paper table,
+    .markdown-rendered.osfinal-paper table {
+        break-inside: avoid;
+        font-size: 7.9pt;
+        line-height: 1.23;
+        margin: 0.08in 0 0.22in;
+        table-layout: fixed;
+    }
+
+    .markdown-preview-view.osfinal-paper th,
+    .markdown-preview-view.osfinal-paper td,
+    .markdown-rendered.osfinal-paper th,
+    .markdown-rendered.osfinal-paper td {
+        padding: 0.045in 0.055in;
+        word-break: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .markdown-preview-view.osfinal-paper .task-list-item-checkbox,
+    .markdown-rendered.osfinal-paper .task-list-item-checkbox {
+        transform: scale(0.78);
+        margin-right: 0.06in;
+    }
+
+    .markdown-preview-view.osfinal-paper .mermaid,
+    .markdown-rendered.osfinal-paper .mermaid {
+        break-inside: avoid;
+        margin: 0.06in auto 0.24in;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .markdown-preview-view.osfinal-paper .mermaid svg,
+    .markdown-rendered.osfinal-paper .mermaid svg {
+        max-height: 3.7in;
+        max-width: 100%;
+    }
+
+    .markdown-preview-view.osfinal-paper .page-break,
+    .markdown-rendered.osfinal-paper .page-break {
+        break-before: page;
+        page-break-before: always;
+    }
+
+    .markdown-preview-view.osfinal-paper blockquote,
+    .markdown-rendered.osfinal-paper blockquote {
+        border-left: 3px solid #9bb6d3;
+        color: #36485c;
+        margin: 0.12in 0 0.18in;
+        padding: 0.02in 0 0.02in 0.12in;
+    }
+}
+

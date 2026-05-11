@@ -1,0 +1,208 @@
+{
+  "main": {
+    "id": "3c190655b973c1f8",
+    "type": "split",
+    "children": [
+      {
+        "id": "cb7db4b6c959ee94",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "30ab2d7efa034ff5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "docs/obsidian-final-project.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "obsidian-final-project"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a91e07bc25eda689",
+    "type": "split",
+    "children": [
+      {
+        "id": "b70e6a9a92effab8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "51f2670fc1fb094c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "8528abcb9bb27c27",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "a045b682f248a969",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "c58bf72db67ed78c",
+    "type": "split",
+    "children": [
+      {
+        "id": "23bae7c93d535365",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e7fafec54881ee51",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "docs/obsidian-final-project.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for obsidian-final-project"
+            }
+          },
+          {
+            "id": "a41e353cf1b90d06",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "docs/obsidian-final-project.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from obsidian-final-project"
+            }
+          },
+          {
+            "id": "2a5ec448809cf974",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "8371bbeb378ff6a7",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "1ef04823c8da0500",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "docs/obsidian-final-project.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of obsidian-final-project"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "30ab2d7efa034ff5",
+  "lastOpenFiles": [
+    "rust/target/debug/incremental/monte_carlo-0htxeyehm1hq8/s-hifsg0066y-0ve3w8y-am2dyh1wxhw26jyxkaknuf95p/work-products.bin",
+    "rust/target/debug/incremental/monte_carlo-0htxeyehm1hq8/s-hifsg0066y-0ve3w8y-am2dyh1wxhw26jyxkaknuf95p/query-cache.bin",
+    "rust/target/debug/incremental/monte_carlo-0htxeyehm1hq8/s-hifsg0066y-0ve3w8y-am2dyh1wxhw26jyxkaknuf95p/dep-graph.bin",
+    "rust/target/debug/incremental/monte_carlo-0htxeyehm1hq8/s-hifsg0066y-0ve3w8y-am2dyh1wxhw26jyxkaknuf95p",
+    "rust/target/debug/incremental/dns_lookup-1c627orvui0xk/s-hifsg006au-0kh1zde-8pumtaki41qxk7zuow31zct9m/work-products.bin",
+    "rust/target/debug/incremental/dns_lookup-1c627orvui0xk/s-hifsg006au-0kh1zde-8pumtaki41qxk7zuow31zct9m/query-cache.bin",
+    "rust/target/debug/incremental/dns_lookup-1c627orvui0xk/s-hifsg006au-0kh1zde-8pumtaki41qxk7zuow31zct9m/dep-graph.bin",
+    "rust/target/debug/incremental/dns_lookup-1c627orvui0xk/s-hifsg006au-0kh1zde-8pumtaki41qxk7zuow31zct9m",
+    "rust/target/debug/incremental/matrix_mul-13zuyf6avtp8j/s-hifsg009x9-06cycu0-bq4c92d52onflu1k0z6y6qla2/work-products.bin",
+    "rust/target/debug/incremental/matrix_mul-13zuyf6avtp8j/s-hifsg009x9-06cycu0-bq4c92d52onflu1k0z6y6qla2/query-cache.bin",
+    "rust/target/debug/incremental/matrix_mul-13zuyf6avtp8j/s-hifsg009x9-06cycu0-bq4c92d52onflu1k0z6y6qla2/dep-graph.bin",
+    "docs/obsidian-final-project.backup-20260511-125429.md",
+    "docs/obsidian-final-project.md",
+    "docs/generated-results.md",
+    "docs/ai-citation-log.md",
+    "docs/paper-outline.md",
+    "docs/project-notes.md",
+    "docs/references.md"
+  ]
+}
