@@ -13,7 +13,6 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"Anthropic.claude-code",
 				"ms-vscode.cpptools",
 				"ms-vscode.cpp-devtools",
 				"ms-vscode.cpptools-extension-pack",

@@ -54,4 +54,3 @@ static void print_csv_result(
 }
 
 #endif
-
