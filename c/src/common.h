@@ -1,3 +1,8 @@
+/*
+ * Shared helpers for the C benchmark programs.
+ * This file was generated with help from AI and reviewed by the author.
+ */
+
 #ifndef OSFINAL_COMMON_H
 #define OSFINAL_COMMON_H
 
@@ -10,6 +15,7 @@ static double monotonic_seconds(void)
 {
     struct timespec ts;
 
+    /* Monotonic time avoids wall-clock jumps during benchmark runs. */
     if (clock_gettime(CLOCK_MONOTONIC, &ts) != 0)
     {
         perror("clock_gettime");
@@ -27,6 +33,7 @@ static long parse_positive_long(const char *text, const char *name)
     errno = 0;
     value = strtol(text, &end, 10);
 
+    /* Reject partial, negative, zero, or overflowing numeric input. */
     if (errno != 0 || end == text || *end != '\0' || value <= 0)
     {
         fprintf(stderr, "Invalid %s: %s\n", name, text);
@@ -44,6 +51,7 @@ static void print_csv_result(
     double elapsed_seconds,
     const char *extra)
 {
+    /* Print milliseconds so Python scripts can combine all benchmark output. */
     printf("%s,%s,%ld,%ld,%.6f,%s\n",
            language,
            algorithm,

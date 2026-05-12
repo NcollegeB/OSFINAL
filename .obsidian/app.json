@@ -1,4 +1,11 @@
 {
+  "userIgnoreFilters": [
+    ".git/",
+    ".venv/",
+    "c/build/",
+    "rust/target/",
+    "data/dns/trials/"
+  ],
   "pdfExportSettings": {
     "pageSize": "Letter",
     "landscape": false,

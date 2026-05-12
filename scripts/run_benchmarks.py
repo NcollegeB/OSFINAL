@@ -8,23 +8,34 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = ROOT / "results"
 RAW_CSV = RESULTS_DIR / "benchmark_raw.csv"
+DNS_DIR = ROOT / "data" / "dns"
+DNS_TRIALS_DIR = DNS_DIR / "trials"
 
-THREADS = int(os.environ.get("THREADS", "4"))
-TRIALS = int(os.environ.get("TRIALS", "30"))
+THREADS = int(os.environ.get("THREADS", "12"))
+TRIALS = int(os.environ.get("TRIALS", "50"))
 MONTE_POINTS = [int(x) for x in os.environ.get("MONTE_POINTS", "1000000,5000000,10000000").split(",")]
 MATRIX_SIZES = [int(x) for x in os.environ.get("MATRIX_SIZES", "128,256,512").split(",")]
-DNS_SIZES = [int(x) for x in os.environ.get("DNS_SIZES", "30,100,150").split(",")]
+DNS_SIZES = [int(x) for x in os.environ.get("DNS_SIZES", "50,200,500").split(",")]
+DNS_UNIQUE_PER_TRIAL = os.environ.get("DNS_UNIQUE_PER_TRIAL", "1") != "0"
+COMMAND_TIMEOUT_SECONDS = int(os.environ.get("COMMAND_TIMEOUT_SECONDS", "120"))
 
 
 def run(command: list[str], cwd: Path | None = None) -> str:
-    completed = subprocess.run(
-        command,
-        cwd=cwd,
-        check=True,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=cwd,
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=COMMAND_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired as error:
+        joined = " ".join(command)
+        raise SystemExit(
+            f"Command timed out after {COMMAND_TIMEOUT_SECONDS} seconds: {joined}"
+        ) from error
     return completed.stdout.strip()
 
 
@@ -39,8 +50,7 @@ def build() -> None:
 def validate_dns_inputs() -> None:
     seen_across_files: dict[str, Path] = {}
 
-    for size in DNS_SIZES:
-        input_file = ROOT / "data" / "dns" / f"names_{size}.txt"
+    def validate_file(input_file: Path, size: int) -> None:
         if not input_file.exists():
             raise SystemExit(f"Missing DNS input file: {input_file}")
 
@@ -54,8 +64,9 @@ def validate_dns_inputs() -> None:
                 f"{input_file} contains {len(names)} hostnames, expected {size}"
             )
 
-        duplicates = sorted({name for name in names if names.count(name) > 1})
-        if duplicates:
+        unique_names = set(names)
+        if len(unique_names) != len(names):
+            duplicates = sorted(name for name in unique_names if names.count(name) > 1)
             raise SystemExit(
                 f"{input_file} contains duplicate hostnames: {', '.join(duplicates)}"
             )
@@ -66,6 +77,15 @@ def validate_dns_inputs() -> None:
                     f"Hostname {name} appears in both {seen_across_files[name]} and {input_file}"
                 )
             seen_across_files[name] = input_file
+
+    for size in DNS_SIZES:
+        validate_file(DNS_DIR / f"names_{size}.txt", size)
+
+    if DNS_UNIQUE_PER_TRIAL:
+        for trial in range(1, TRIALS + 1):
+            for language in ("c", "rust"):
+                for size in DNS_SIZES:
+                    validate_file(dns_input_file(language, size, trial), size)
 
 
 def parse_result(line: str) -> dict[str, str]:
@@ -80,7 +100,13 @@ def parse_result(line: str) -> dict[str, str]:
     }
 
 
-def commands() -> list[tuple[str, str, int, list[str]]]:
+def dns_input_file(language: str, size: int, trial: int) -> Path:
+    if DNS_UNIQUE_PER_TRIAL:
+        return DNS_TRIALS_DIR / f"trial_{trial:03d}" / f"{language}_names_{size}.txt"
+    return DNS_DIR / f"names_{size}.txt"
+
+
+def commands(trial: int) -> list[tuple[str, str, int, list[str]]]:
     c_build = ROOT / "c" / "build"
     rust_build = ROOT / "rust" / "target" / "release"
     cases: list[tuple[str, str, int, list[str]]] = []
@@ -94,9 +120,10 @@ def commands() -> list[tuple[str, str, int, list[str]]]:
         cases.append(("rust", "matrix_mul", size, [str(rust_build / "matrix_mul"), str(THREADS), str(size)]))
 
     for size in DNS_SIZES:
-        input_file = ROOT / "data" / "dns" / f"names_{size}.txt"
-        cases.append(("c", "dns_lookup", size, [str(c_build / "dns_lookup_c"), str(THREADS), str(input_file)]))
-        cases.append(("rust", "dns_lookup", size, [str(rust_build / "dns_lookup"), str(THREADS), str(input_file)]))
+        c_input_file = dns_input_file("c", size, trial)
+        rust_input_file = dns_input_file("rust", size, trial)
+        cases.append(("c", "dns_lookup", size, [str(c_build / "dns_lookup_c"), str(THREADS), str(c_input_file)]))
+        cases.append(("rust", "dns_lookup", size, [str(rust_build / "dns_lookup"), str(THREADS), str(rust_input_file)]))
 
     return cases
 
@@ -121,7 +148,7 @@ def main() -> None:
 
         for trial in range(1, TRIALS + 1):
             print(f"Trial {trial}/{TRIALS}")
-            for _language, _algorithm, _workload, command in commands():
+            for _language, _algorithm, _workload, command in commands(trial):
                 line = run(command)
                 row = parse_result(line)
                 row["trial"] = trial

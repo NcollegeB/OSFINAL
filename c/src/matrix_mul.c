@@ -1,3 +1,12 @@
+/*
+ * Matrix multiplication benchmark using POSIX threads.
+ * This file was generated with help from AI and reviewed by the author.
+ */
+
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,6 +37,7 @@ static void fill_matrices(double *a, double *b, double *b_transposed, long n)
         {
             a[row * n + col] = value_for(row, col);
             b[row * n + col] = value_for(col, row);
+            /* Transposed B makes the inner multiply loop read contiguous memory. */
             b_transposed[col * n + row] = b[row * n + col];
         }
     }
@@ -38,6 +48,7 @@ static void *worker(void *arg)
     worker_args_t *args = (worker_args_t *)arg;
     long n = args->n;
 
+    /* Rows do not overlap, so workers can write C without locking. */
     for (long row = args->start_row; row < args->end_row; row++)
     {
         for (long col = 0; col < n; col++)
@@ -108,8 +119,10 @@ int main(int argc, char **argv)
     fill_matrices(a, b, b_transposed, n);
     rows_per_thread = (n + threads - 1) / threads;
 
+    /* Timing starts after setup so the result focuses on multiplication. */
     start = monotonic_seconds();
 
+    /* Assign each thread a contiguous range of output rows. */
     for (long i = 0; i < threads; i++)
     {
         int error_number;
@@ -160,6 +173,7 @@ int main(int argc, char **argv)
 
     elapsed = monotonic_seconds() - start;
 
+    /* Checksum keeps the computed matrix observable to the compiler. */
     for (size_t i = 0; i < elements; i++)
     {
         checksum += c[i];

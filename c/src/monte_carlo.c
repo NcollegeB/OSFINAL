@@ -1,3 +1,12 @@
+/*
+ * Monte Carlo pi benchmark using POSIX threads.
+ * This file was generated with help from AI and reviewed by the author.
+ */
+
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+
 #include <inttypes.h>
 #include <pthread.h>
 #include <stdint.h>
@@ -14,6 +23,7 @@ typedef struct
     long hits;
 } worker_args_t;
 
+/* Xorshift RNG keeps the benchmark self-contained and deterministic. */
 static uint64_t next_u64(uint64_t *state)
 {
     uint64_t x = *state;
@@ -37,6 +47,7 @@ static void *worker(void *arg)
     uint64_t state = args->seed;
     long hits = 0;
 
+    /* Each point is independent, which makes this workload easy to parallelize. */
     for (long i = 0; i < args->iterations; i++)
     {
         double x = next_unit_double(&state);
@@ -88,8 +99,10 @@ int main(int argc, char **argv)
     base_iterations = points / threads;
     remainder = points % threads;
 
+    /* Timing includes thread creation, work, and joining. */
     start = monotonic_seconds();
 
+    /* Split points as evenly as possible across worker threads. */
     for (long i = 0; i < threads; i++)
     {
         int error_number;
@@ -118,6 +131,7 @@ int main(int argc, char **argv)
             free(args);
             return EXIT_FAILURE;
         }
+        /* Workers write separate counters, then the main thread combines them. */
         total_hits += args[i].hits;
     }
 
@@ -130,4 +144,3 @@ int main(int argc, char **argv)
     free(args);
     return EXIT_SUCCESS;
 }
-

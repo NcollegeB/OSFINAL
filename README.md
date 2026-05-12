@@ -1,4 +1,4 @@
-D# OSFINAL: C vs Rust Thread Performance
+# OSFINAL: C vs Rust Thread Performance
 
 ## Project Question
 
@@ -16,18 +16,18 @@ The previous DNS assignment in `../CSCI440-DNS-Name-Resolution-Engine-IPC` can s
 
 - `c/`: C pthread implementations and Makefile
 - `rust/`: Rust implementations using `std::thread`
-- `scripts/`: benchmark runner and result analyzer
+- `scripts/`: benchmark runner, result analyzer, and graph generator
 - `data/dns/`: DNS hostname inputs
 - `docs/`: project notes, paper outline, references, and AI citation log
 - `results/`: generated CSV files and summaries
 
 ## Recommended Experiment
 
-Use one thread count for all runs, such as 4 or 8 threads, and vary only the amount of work:
+Use one thread count for all runs and vary only the amount of work. The current collected results use 12 worker threads:
 
 - Monte Carlo: 1,000,000; 5,000,000; 10,000,000 points
 - Matrix multiplication: 128x128; 256x256; 512x512 matrices
-- DNS: 30; 100; 150 unique hostnames
+- DNS: 50; 200; 500 unique hostnames
 
 Run each case many times. The assignment suggests that 30 or more runs per case is common for meaningful timing results.
 
@@ -44,31 +44,32 @@ cargo build --release --manifest-path rust/Cargo.toml
 Run the full benchmark suite:
 
 ```bash
-THREADS=4 TRIALS=50 python3 scripts/run_benchmarks.py
+THREADS=12 TRIALS=50 DNS_SIZES=50,200,500 python3 scripts/run_benchmarks.py
 python3 scripts/analyze_results.py results/benchmark_raw.csv results/benchmark_summary.csv
+python3 scripts/make_graphs.py results/benchmark_summary.csv results/graphs
 ```
 
 For quick smoke tests:
 
 ```bash
-THREADS=4 TRIALS=2 python3 scripts/run_benchmarks.py
+THREADS=12 TRIALS=2 DNS_SIZES=50,200,500 python3 scripts/run_benchmarks.py
 python3 scripts/analyze_results.py results/benchmark_raw.csv results/benchmark_summary.csv
+python3 scripts/make_graphs.py results/benchmark_summary.csv results/graphs
 ```
 
 From Windows PowerShell on this machine, use WSL:
 
 ```powershell
 wsl
-cd /mnt/c/Users/19255/Documents/OS/OSFINAL
-THREADS=4 TRIALS=50 python3 scripts/run_benchmarks.py
+cd ~/code/OSFINAL
+THREADS=12 TRIALS=50 DNS_SIZES=50,200,500 python3 scripts/run_benchmarks.py
 python3 scripts/analyze_results.py results/benchmark_raw.csv results/benchmark_summary.csv
+python3 scripts/make_graphs.py results/benchmark_summary.csv results/graphs
 ```
 
-Generate the Obsidian-ready report outline with tables and Mermaid graphs:
+The Obsidian paper embeds the generated SVG graphs from `results/graphs/`.
 
-```bash
-python3 scripts/make_obsidian_report.py results/benchmark_summary.csv docs/generated-results.md
-```
+The DNS inputs are static checked-in files. The simple submission files live in `data/dns/names_50.txt`, `data/dns/names_200.txt`, and `data/dns/names_500.txt`. The actual benchmark uses the fixed per-trial/per-language files in `data/dns/trials/`, which keeps hostnames unique across the benchmark run and reduces repeated-name cache effects.
 
 ## Notes For The Paper
 

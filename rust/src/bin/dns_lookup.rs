@@ -46,6 +46,7 @@ fn resolves(hostname: &str) -> bool
 fn main()
 {
     let args: Vec<String> = env::args().collect();
+
     if args.len() != 3
     {
         eprintln!("Usage: {} <threads> <hostname_file>", args[0]);
@@ -54,6 +55,7 @@ fn main()
 
     let threads = parse_positive(&args[1], "threads");
     let hostnames = read_hostnames(&args[2]);
+    
     if hostnames.is_empty()
     {
         eprintln!("No hostnames found in {}", args[2]);
@@ -92,5 +94,6 @@ fn main()
         .sum();
 
     let elapsed_ms = start.elapsed().as_secs_f64() * 1000.0;
+
     println!("rust,dns_lookup,{threads},{count},{elapsed_ms:.6},resolved={resolved}");
 }

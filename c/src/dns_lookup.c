@@ -1,3 +1,12 @@
+/*
+ * DNS lookup benchmark using POSIX threads.
+ * This file was generated with help from AI and reviewed by the author.
+ */
+
+#ifndef _POSIX_C_SOURCE
+#define _POSIX_C_SOURCE 200809L
+#endif
+
 #include <netdb.h>
 #include <pthread.h>
 #include <stdio.h>
@@ -56,6 +65,7 @@ static char **read_hostnames(const char *path, long *out_count)
             continue;
         }
 
+        /* Grow the hostname list as needed so input files can vary in size. */
         if (count == capacity)
         {
             char **grown;
@@ -105,6 +115,7 @@ static int resolve_hostname(const char *hostname)
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 
+    /* getaddrinfo uses the system resolver, which is the behavior being timed. */
     status = getaddrinfo(hostname, NULL, &hints, &result);
     if (status == 0)
     {
@@ -171,8 +182,10 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
+    /* Timing includes threaded resolver calls and thread overhead. */
     start = monotonic_seconds();
 
+    /* Thread IDs stride through the shared hostname list without mutation. */
     for (long i = 0; i < threads; i++)
     {
         int error_number;
@@ -220,6 +233,7 @@ int main(int argc, char **argv)
     snprintf(extra, sizeof(extra), "resolved=%ld", resolved);
     print_csv_result("c", "dns_lookup", threads, count, elapsed, extra);
 
+    /* Hostnames were duplicated while reading the file, so free each string. */
     for (long i = 0; i < count; i++)
     {
         free(hostnames[i]);
