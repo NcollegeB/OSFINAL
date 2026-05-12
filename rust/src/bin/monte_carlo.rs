@@ -3,17 +3,21 @@ use std::process;
 use std::thread;
 use std::time::Instant;
 
-fn parse_positive(value: &str, name: &str) -> u64 {
-    match value.parse::<u64>() {
+fn parse_positive(value: &str, name: &str) -> u64
+{
+    match value.parse::<u64>()
+    {
         Ok(parsed) if parsed > 0 => parsed,
-        _ => {
+        _ =>
+        {
             eprintln!("Invalid {name}: {value}");
             process::exit(1);
         }
     }
 }
 
-fn next_u64(state: &mut u64) -> u64 {
+fn next_u64(state: &mut u64) -> u64
+{
     let mut x = *state;
     x ^= x >> 12;
     x ^= x << 25;
@@ -22,13 +26,16 @@ fn next_u64(state: &mut u64) -> u64 {
     x.wrapping_mul(2_685_821_657_736_338_717)
 }
 
-fn next_unit_double(state: &mut u64) -> f64 {
+fn next_unit_double(state: &mut u64) -> f64
+{
     ((next_u64(state) >> 11) as f64) * (1.0 / 9_007_199_254_740_992.0)
 }
 
-fn main() {
+fn main()
+{
     let args: Vec<String> = env::args().collect();
-    if args.len() != 3 {
+    if args.len() != 3
+    {
         eprintln!("Usage: {} <threads> <points>", args[0]);
         process::exit(1);
     }
@@ -41,16 +48,20 @@ fn main() {
     let start = Instant::now();
     let mut handles = Vec::with_capacity(threads);
 
-    for thread_id in 0..threads {
+    for thread_id in 0..threads
+    {
         let iterations = base_iterations + u64::from((thread_id as u64) < remainder);
-        handles.push(thread::spawn(move || {
+        handles.push(thread::spawn(move ||
+        {
             let mut state = 0x9e37_79b9_7f4a_7c15_u64 ^ ((thread_id as u64) + 1);
             let mut hits = 0_u64;
 
-            for _ in 0..iterations {
+            for _ in 0..iterations
+            {
                 let x = next_unit_double(&mut state);
                 let y = next_unit_double(&mut state);
-                if (x * x) + (y * y) <= 1.0 {
+                if (x * x) + (y * y) <= 1.0
+                {
                     hits += 1;
                 }
             }

@@ -1,4 +1,4 @@
-# OSFINAL: C vs Rust Thread Performance
+D# OSFINAL: C vs Rust Thread Performance
 
 ## Project Question
 
