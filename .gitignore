@@ -1,5 +1,9 @@
+/.obsidian/
+/.venv/
+
 results/*.txt
 results/*.log
 c/build/
 rust/target/
 __pycache__/
+**/__pycache__/

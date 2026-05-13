@@ -55,7 +55,7 @@ fn main()
 
     let threads = parse_positive(&args[1], "threads");
     let hostnames = read_hostnames(&args[2]);
-    
+
     if hostnames.is_empty()
     {
         eprintln!("No hostnames found in {}", args[2]);

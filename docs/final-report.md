@@ -51,7 +51,7 @@ To reduce noise, I ran all tests on the same machine, used the same WSL2 environ
 
 The project contains separate C and Rust implementations for each workload. The C programs are compiled with `gcc` using optimization level `-O2`, warnings enabled, and pthread support. The Rust programs are compiled with `cargo build --release`.
 
-The DNS input files are static files included with the project. The benchmark runner validates those DNS input files, builds the programs, runs each benchmark repeatedly, and stores raw timing data in `results/benchmark_raw.csv`. The result analyzer summarizes the raw data into `results/benchmark_summary.csv`. The graph script creates SVG line charts in `results/graphs/`.
+The DNS input files are static files included with the project. The benchmark runner validates those DNS input files, builds the programs, runs each benchmark repeatedly, and stores raw timing data in `results/benchmark_raw.csv`. The result analyzer summarizes the raw data into `results/benchmark_summary.csv`. The graph script creates SVG line charts in `docs/assets/graphs/`.
 
 The timing methods were:
 
@@ -64,7 +64,7 @@ I used this command sequence:
 cd /home/sabana/code/OSFINAL
 THREADS=12 TRIALS=50 DNS_SIZES=50,200,500 python3 scripts/run_benchmarks.py
 python3 scripts/analyze_results.py results/benchmark_raw.csv results/benchmark_summary.csv
-python3 scripts/make_graphs.py results/benchmark_summary.csv results/graphs
+python3 scripts/make_graphs.py results/benchmark_summary.csv docs/assets/graphs
 ```
 
 For each language/workload/input-size case, I ran 50 trials. There were 3 algorithms, 3 workload sizes per algorithm, 2 languages, and 50 trials per case, for a total of 900 timed program runs.
@@ -165,14 +165,13 @@ The code for this project is included in the `OSFINAL` folder.
 - Benchmark scripts: `scripts/run_benchmarks.py`, `scripts/analyze_results.py`, and `scripts/make_graphs.py`
 - DNS input data: `data/dns/`
 - Raw and summarized results: `results/benchmark_raw.csv` and `results/benchmark_summary.csv`
-- Generated graphs: `results/graphs/`
+- Generated graphs used by the report: `docs/assets/graphs/`
 
 Compiled binaries and build directories do not need to be submitted because they can be regenerated with the included source code and build scripts.
 
 ## References
 
-- CSU Chico CSCI440 final project prompt, provided in the course repository README.
-- Previous local DNS assignment used as reference for DNS lookup concepts and input format: `../CSCI440-DNS-Name-Resolution-Engine-IPC`.
+- CSU Chico CSCI440 final project prompt, provided in the course repository README: <https://github.com/CSUChico-CSCI340/final-project>
 - POSIX pthread documentation: `man pthread_create`, `man pthread_join`, and `man pthreads`.
 - POSIX monotonic clock documentation: `man clock_gettime`.
 - POSIX DNS resolver documentation: `man getaddrinfo`.
@@ -183,6 +182,6 @@ Compiled binaries and build directories do not need to be submitted because they
 
 ## AI Assistance Citation
 
-I used OpenAI ChatGPT/Codex as an AI assistant while planning and drafting this project. The assistant helped create the project scaffold, starter benchmark implementations, result analysis scripts, static DNS input files, Obsidian Markdown formatting, graph scripts, and draft explanation text. I reviewed and edited the generated material before submission.
+I used OpenAI ChatGPT/Codex as an AI assistant while planning and drafting this project. The assistant helped create project structure, C source code, static DNS input files, benchmark scripts, result analysis, Python-generated graphs, Obsidian Markdown formatting, final report text, and project cleanup suggestions. Rust-related code was left to the developer. I reviewed and edited the generated material before submission.
 
-OpenAI. (2026, May 12). *ChatGPT/Codex assistance with CSCI440 final project planning, benchmark code, data analysis, graph generation, and report drafting* [Large language model]. Prompt summary: Help plan and write a CSCI440 final project comparing C pthread performance with Rust thread performance using Monte Carlo pi estimation, matrix multiplication, and DNS lookup workloads. Create larger unique static DNS input files, rerun benchmark trials, create Python-generated graphs, and update the Obsidian Markdown report.
+OpenAI. (2026, May 12). *ChatGPT/Codex assistance with CSCI440 final project planning, benchmark code, data analysis, graph generation, and report drafting* [Large language model]. Prompt summary: Help plan and write a CSCI440 final project comparing C pthread performance with Rust thread performance using Monte Carlo pi estimation, matrix multiplication, and DNS lookup workloads. Do not touch anything related to Rust; that is to be left up to the developer. Help create source code, static DNS input files, benchmark scripts, result analysis, Python-generated graphs, Obsidian Markdown formatting, and final report text. Review the project folder for unused files and remove stale artifacts before submission.

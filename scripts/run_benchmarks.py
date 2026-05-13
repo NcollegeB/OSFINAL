@@ -13,10 +13,18 @@ DNS_TRIALS_DIR = DNS_DIR / "trials"
 
 THREADS = int(os.environ.get("THREADS", "12"))
 TRIALS = int(os.environ.get("TRIALS", "50"))
-MONTE_POINTS = [int(x) for x in os.environ.get("MONTE_POINTS", "1000000,5000000,10000000").split(",")]
-MATRIX_SIZES = [int(x) for x in os.environ.get("MATRIX_SIZES", "128,256,512").split(",")]
-DNS_SIZES = [int(x) for x in os.environ.get("DNS_SIZES", "50,200,500").split(",")]
-DNS_UNIQUE_PER_TRIAL = os.environ.get("DNS_UNIQUE_PER_TRIAL", "1") != "0"
+MONTE_POINTS = [
+    int(x)
+    for x in os.environ.get("MONTE_POINTS", "1000000,5000000,10000000").split(",")
+]
+MATRIX_SIZES = [
+    int(x)
+    for x in os.environ.get("MATRIX_SIZES", "128,256,512").split(",")
+]
+DNS_SIZES = [
+    int(x)
+    for x in os.environ.get("DNS_SIZES", "50,200,500").split(",")
+]
 COMMAND_TIMEOUT_SECONDS = int(os.environ.get("COMMAND_TIMEOUT_SECONDS", "120"))
 
 
@@ -81,11 +89,10 @@ def validate_dns_inputs() -> None:
     for size in DNS_SIZES:
         validate_file(DNS_DIR / f"names_{size}.txt", size)
 
-    if DNS_UNIQUE_PER_TRIAL:
-        for trial in range(1, TRIALS + 1):
-            for language in ("c", "rust"):
-                for size in DNS_SIZES:
-                    validate_file(dns_input_file(language, size, trial), size)
+    for trial in range(1, TRIALS + 1):
+        for language in ("c", "rust"):
+            for size in DNS_SIZES:
+                validate_file(dns_input_file(language, size, trial), size)
 
 
 def parse_result(line: str) -> dict[str, str]:
@@ -101,9 +108,7 @@ def parse_result(line: str) -> dict[str, str]:
 
 
 def dns_input_file(language: str, size: int, trial: int) -> Path:
-    if DNS_UNIQUE_PER_TRIAL:
-        return DNS_TRIALS_DIR / f"trial_{trial:03d}" / f"{language}_names_{size}.txt"
-    return DNS_DIR / f"names_{size}.txt"
+    return DNS_TRIALS_DIR / f"trial_{trial:03d}" / f"{language}_names_{size}.txt"
 
 
 def commands(trial: int) -> list[tuple[str, str, int, list[str]]]:
@@ -112,18 +117,60 @@ def commands(trial: int) -> list[tuple[str, str, int, list[str]]]:
     cases: list[tuple[str, str, int, list[str]]] = []
 
     for points in MONTE_POINTS:
-        cases.append(("c", "monte_carlo", points, [str(c_build / "monte_carlo_c"), str(THREADS), str(points)]))
-        cases.append(("rust", "monte_carlo", points, [str(rust_build / "monte_carlo"), str(THREADS), str(points)]))
+        cases.append(
+            (
+                "c",
+                "monte_carlo",
+                points,
+                [str(c_build / "monte_carlo_c"), str(THREADS), str(points)],
+            )
+        )
+        cases.append(
+            (
+                "rust",
+                "monte_carlo",
+                points,
+                [str(rust_build / "monte_carlo"), str(THREADS), str(points)],
+            )
+        )
 
     for size in MATRIX_SIZES:
-        cases.append(("c", "matrix_mul", size, [str(c_build / "matrix_mul_c"), str(THREADS), str(size)]))
-        cases.append(("rust", "matrix_mul", size, [str(rust_build / "matrix_mul"), str(THREADS), str(size)]))
+        cases.append(
+            (
+                "c",
+                "matrix_mul",
+                size,
+                [str(c_build / "matrix_mul_c"), str(THREADS), str(size)],
+            )
+        )
+        cases.append(
+            (
+                "rust",
+                "matrix_mul",
+                size,
+                [str(rust_build / "matrix_mul"), str(THREADS), str(size)],
+            )
+        )
 
     for size in DNS_SIZES:
         c_input_file = dns_input_file("c", size, trial)
         rust_input_file = dns_input_file("rust", size, trial)
-        cases.append(("c", "dns_lookup", size, [str(c_build / "dns_lookup_c"), str(THREADS), str(c_input_file)]))
-        cases.append(("rust", "dns_lookup", size, [str(rust_build / "dns_lookup"), str(THREADS), str(rust_input_file)]))
+        cases.append(
+            (
+                "c",
+                "dns_lookup",
+                size,
+                [str(c_build / "dns_lookup_c"), str(THREADS), str(c_input_file)],
+            )
+        )
+        cases.append(
+            (
+                "rust",
+                "dns_lookup",
+                size,
+                [str(rust_build / "dns_lookup"), str(THREADS), str(rust_input_file)],
+            )
+        )
 
     return cases
 
