@@ -2,8 +2,6 @@
 
 OpenAI ChatGPT/Codex was used as an assistant for this project. The final report includes an AI assistance citation; this file is kept as supporting detail for the submission.
 
-Suggested citation:
-
 OpenAI. (2026, May 12). *ChatGPT/Codex assistance with CSCI440 final project planning, benchmark code, data analysis, graph generation, and report drafting* [Large language model].
 
 Prompt summary:

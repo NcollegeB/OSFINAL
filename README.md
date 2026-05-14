@@ -70,20 +70,3 @@ The final report is in `docs/final-report.md`, and the PDF export is `docs/final
 The DNS inputs are static checked-in files. The simple submission files live in `data/dns/names_50.txt`, `data/dns/names_200.txt`, and `data/dns/names_500.txt`. The actual benchmark uses the fixed per-trial/per-language files in `data/dns/trials/`, which keeps hostnames unique across the benchmark run and reduces repeated-name cache effects.
 
 To open the report cleanly in Obsidian, open `docs/` as the vault instead of opening the whole repository.
-
-## Notes For The Paper
-
-- Keep the conclusion tied to the measured means and confidence intervals.
-- Mention that the experiment varies workload size, not thread count.
-- Discuss DNS resolver/cache/network behavior as a possible source of noise.
-
-## Submission Checklist
-
-- `docs/final-report.pdf`: paper PDF for submission
-- `docs/final-report.md`: editable Markdown copy of the paper
-- `c/`, `rust/`, and `scripts/`: source code and scripts needed to rebuild and rerun the project
-- `data/dns/`: static DNS input files used by the benchmark
-- `results/benchmark_raw.csv` and `results/benchmark_summary.csv`: collected timing data and summarized statistics
-- `docs/ai-citation-log.md`: supporting AI citation details
-
-Do not submit compiled binaries or build output directories. They are ignored by `.gitignore` and can be regenerated from the source.
